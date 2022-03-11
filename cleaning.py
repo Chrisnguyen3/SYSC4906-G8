@@ -8,7 +8,6 @@ def pre_process(keyword):
             products.append(json.loads(line))
     print(len(products))
 
-    keyword = "water"
     with open(f"raw_data/{keyword}-pre-process.csv", "w+") as file:
         file.write("PRODUCT, DATE, PRICE\n")
         for product in products:
