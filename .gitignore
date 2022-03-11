@@ -132,3 +132,5 @@ raw_data/**
 env/**
 __pycache__/**
 test.json
+
+figures/**
