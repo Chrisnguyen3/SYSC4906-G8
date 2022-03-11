@@ -130,4 +130,5 @@ dmypy.json
 .vscode/**
 raw_data/**
 env/**
+__pycache__/**
 test.json
