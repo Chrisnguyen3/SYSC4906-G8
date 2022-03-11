@@ -1,19 +1,22 @@
 import json
-from datetime import datetime
+import logging
+from datetime import datetime, timedelta
 
-def pre_process(keyword):
+def pre_process(keyword=None, file_name=None):
     products = []
 
     try:
-        file_name = f"raw_data/raw_{keyword}.json"
+        if file_name == None:
+            file_name = f"raw_data/raw_{keyword}.json"
+        
         with open(file_name, "r") as file:
             for i, line in enumerate(file.readlines()):
                 try:
                     products.append(json.loads(line))
                 except Exception as e:
-                    print(f"Malformed JSON on line {i} of {file_name}", e)
+                    logging.error(f"Malformed JSON on line {i} of {file_name}", e)
     except Exception as e:
-        return print(f"Error reading raw json for {keyword}", e)
+        return logging.error(f"Error reading raw json for {keyword}", e)
 
     try: 
         with open(f"raw_data/{keyword}-pre-process.csv", "w+") as file:
@@ -21,18 +24,29 @@ def pre_process(keyword):
             for product in products:
                 try:
                     name = product["title"].replace("/","").replace(",", "")
-                    prices = product["AMAZON"]
-                    timestamp = product["timeStamp"]
+                    prices = product["MARKET_NEW"]
+                    current_time = product["lastUpdate"]
                     for i in range(0, len(prices), 2):
-                        temp_date = (timestamp - prices[i]) / 1000
-                        date = datetime.fromtimestamp(temp_date).strftime("%Y/%m/%d")
-                        file.write(f"{name}, {date}, {prices[i+1] / 100}\n")
+                        time_delta = timedelta(minutes=(current_time - prices[i]))
+                        date = datetime.now() - time_delta
+                        date_str = date.strftime("%Y/%m/%d")
+                        file.write(f"{name}, {date_str}, {prices[i+1] / 100}\n")
                 except Exception as e:
-                    print(f"Error pre-processing date and prices for {keyword}", e)
+                    logging.error(f"Error pre-processing date and prices for {keyword}", e)
     except Exception as e:
-        print(f"Error pre-processing date and prices for {keyword}", e)
+        logging.error(f"Error pre-processing date and prices for {keyword}", e)
+    
+    logging.info(f"Finished processing keyword={keyword} or file={file_name}")
 
 if __name__ == "__main__":
+    import os
     import sys
-    for arg in sys.argv[1:]:
-        pre_process(arg)
+    
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1:]:
+            pre_process(arg)
+    else:
+        cwd = os.getcwd()
+        for file_path in os.listdir(cwd + '\\raw_data\\'):
+            if 'raw_' in file_path and '.json' in file_path:
+                pre_process(file_name=f"raw_data/{file_path}")
