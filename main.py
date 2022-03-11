@@ -12,11 +12,10 @@ if __name__ == "__main__":
     from tkinter import filedialog
 
     logging.basicConfig(filename='scraper.log')
-
+    
+    keywords = []
     try:
         scraper = Scraper()
-
-        keywords = []
         if (len(sys.argv) > 1):
             keywords = sys.argv[1:]
         else:
@@ -34,16 +33,18 @@ if __name__ == "__main__":
 
         # get keywords from file
         for keyword in keywords:
+            keyword = keyword.replace("\\","").replace("/", "")
             links = scraper.search(keyword) # look through search page for links
 
             with open(f"raw_data/raw_{keyword}.json", "w+") as f:
                 for link in links:
                     f.write(scraper.get_data(link) + "\n") # get data from search results
-            
-            pre_process(keyword) # clean a little
-    except Exception as e:
-        logger.error("Error in main scraper", e)
 
-    #TODO: Add graceful error catching
-    #TODO: Add logging
+            logger.info(f"Finished scraping {keyword}")
+    except Exception as e:
+        logging.error("Error in main scraper", e)
+    
     scraper.quit()
+    
+    for keyword in keywords:
+        pre_process(keyword.replace("\\","").replace("/", ""))
