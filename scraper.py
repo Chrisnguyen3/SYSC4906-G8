@@ -14,6 +14,13 @@ class Scraper(Driver):
         self.load(url)
         self.find_element('div.productTableDescriptionTitle')
         time.sleep(1)
+        
+        try:
+            refresh = self.find_element('i.fa-refresh')
+            refresh.click() 
+            time.sleep(1)
+        except:
+            pass
 
         self.execute_script('console.log(JSON.stringify(dataProduct))')
         time.sleep(1)
