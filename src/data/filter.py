@@ -3,9 +3,9 @@ import csv
 #Parameters
 #Select csv to filter by specific product name and year
 #Averages prices to obtain a single price per date 
-filename = "data/Battery bank-pre-process.csv"
-name = "INIU Portable Charger USB C Slimmest Triple 3A High-Speed 10000mAh Phone Power Bank Flashlight External Battery Pack Compatible with iPhone 13 12 11 X Samsung S20 Google LG iPad etc [2022 Version]"
-year = "2021"
+filename = "data/Ponchos-pre-process2020.csv"
+name = "Juvale 20-Pack Disposable Rain Ponchos Adults Emergency Waterproof Raincoat with Hood for Camping Hiking Sport or Outdoors 5 Colors (Pink Blue Yellow Green Clear) Individually Wrapped"
+year = "2020"
 
 
 temp_list = []
