@@ -7,7 +7,6 @@ Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── external       <- Data from third party sources.
@@ -51,7 +50,25 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
+Link to the presentation: [Click Here](https://docs.google.com/presentation/d/1C-ORelAYbGE2xf24e7ILH0yzFunO0NwF40tf_TYkaY0/edit?usp=sharing)
 
+### Install dependencies
+```
+pip install -r requirements.txt
+```
+
+or if using a virtual environment
+
+```
+source <your-venv-dir>/bin/active # or <venv-dir>/Scripts/Activate.ps1 for windows
+pip install -r requirements.txt
+```
+
+
+### Start scraper
+```
+make start
+```
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
